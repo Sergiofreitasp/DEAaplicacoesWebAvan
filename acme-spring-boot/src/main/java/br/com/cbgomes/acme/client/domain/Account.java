@@ -13,7 +13,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-
+@MappedSuperclass
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(of = {"id"})
 public class Account {
 
 	private static final long serialVersionUID = 1L;
