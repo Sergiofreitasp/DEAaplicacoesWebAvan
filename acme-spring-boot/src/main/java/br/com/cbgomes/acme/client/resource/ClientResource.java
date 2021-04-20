@@ -63,7 +63,7 @@ public class ClientResource {
 	}
 	
 	@PutMapping 
-	public ResponseEntity<ClientDTO> update( @RequestBody ClientDTO dto, @RequestParam
+	public ResponseEntity<ClientDTO> update( @RequestBody ClientDTO dto, @PathVariable
 	  ("id") Long id) { 
 		return ResponseEntity.ok().body(ClientConverterDTO.converterToClientDTO(service.create(service.getById(id))));
 	}

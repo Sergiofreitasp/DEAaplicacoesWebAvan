@@ -34,7 +34,7 @@ public class Account {
 	
 	@ManyToOne
 	@JoinColumn(name = "fk_cliente_id", nullable = false)
-	private Client cliente;
+	private Client client;
 	
 	private double saldo;
 	
