@@ -1,91 +1,73 @@
 package br.com.cbgomes.acme.client.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.cbgomes.acme.client.domain.Account;
 import br.com.cbgomes.acme.client.domain.Client;
-import br.com.cbgomes.acme.client.domain.dto.AccountDTO;
 import br.com.cbgomes.acme.client.repository.AccountRepository;
+import br.com.cbgomes.acme.exception.EntityNotFoundException;
+import br.com.cbgomes.acme.exception.ValidationException;
 
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl implements AccountService{
 
-		
 	@Autowired
 	private AccountRepository repository;
 	
-
-
-	@Override //Saldo
+	@Override
 	public double getwithdraw(String agency, String accountNumber) {
 		Account account = this.loadAccountForNumber(agency, accountNumber);
-		return account.getBalance();
+		return account.getSaldo();
+		
 	}
-
-	private Account loadAccountForNumber(String agency, String accountNumber) {
+	
+	public Account loadAccountForNumber(String agency, String accountNumber) {
 		Account account = repository.findByAgencyAndAccountNumber(agency, accountNumber);
 		if (account == null) {
-			//throw new AplicacaoException(ExceptionValidacoes.ERRO_CONTA_INEXISTENTE);
+			throw new EntityNotFoundException("Accont does not exist");
 		}
 		return account;
 	}
 
-	@Override //Retirar Dinheiro - Sacar
+	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public void withdrawMoney(Account account, double amount) {
-	
+		account.setSaldo(account.getSaldo() - amount);
+		this.repository.saveAndFlush(account);
+		//ADICIONAR TRANSAÇÃO 
+		
 	}
 
-	@Override //Depositar
+	@Override
 	public void depositMoney(Account account, double amount) {
-	
+		if (account.getSaldo() < 0) {
+			account.setSaldo(amount -((account.getSaldo()*(-1))+amount*0.005));
+		}else {
+			account.setSaldo(account.getSaldo()+amount);
+		}
+		this.repository.saveAndFlush(account);
+		// ADICIONAR TRANSAÇÃO
+		
 	}
 
-	@Override //Transferencia
+	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public void transferMoney(Account accountOrigin, Account accountDestiny, double amount) {
+		if (accountOrigin.getSaldo() < amount) {
+			throw new ValidationException("insufficient balance for transfer");
+		}
+		accountOrigin.setSaldo(accountOrigin.getSaldo() - amount);
+		this.repository.saveAndFlush(accountOrigin);
+		
+		this.depositMoney(accountDestiny, amount);
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public Account createAccount(Client client) {
-		return null;
-	}
-
-	@Override
-	public List<Account> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public Account getByNumberAccount(Long numberAccount) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void removeByNumberAccount(int numberAccount) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Account create(AccountDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Account> getByTypeAccount(Long typeAccount) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveAccount(Account accountRequest) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
 }

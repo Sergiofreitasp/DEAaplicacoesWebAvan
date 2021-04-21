@@ -56,18 +56,14 @@ public class ClientResource {
 		return ResponseEntity.ok().body(ClientConverterDTO.converterToClientDTO(service.create(ClientConverterDTO.modelMapper().map(dto, Client.class))));
 	}
 	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteClient(@PathVariable("id") Long id) {
-		try {
-			this.service.removeById(id);
-			return ResponseEntity.ok().build();
-			
-		} catch (Exception e) {
-			return ResponseEntity.noContent().build();
-		}
+	@DeleteMapping(path = {"/{id}"})
+	public ResponseEntity<String> deleteClient(@PathVariable long id) {		
+		service.removeById(service.getById(id).getId());
+		return ResponseEntity.ok().build();
 	}
+	
 	@PutMapping 
-	public ResponseEntity<ClientDTO> update( @RequestBody ClientDTO dto, @RequestParam
+	public ResponseEntity<ClientDTO> update( @RequestBody ClientDTO dto, @PathVariable
 	  ("id") Long id) { 
 		return ResponseEntity.ok().body(ClientConverterDTO.converterToClientDTO(service.create(service.getById(id))));
 	}

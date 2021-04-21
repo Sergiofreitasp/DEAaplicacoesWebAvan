@@ -30,4 +30,16 @@ public class AppExceptionHandler  {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
 	
+	@ExceptionHandler(ValidationException.class)
+	public ResponseEntity<StandardError> validationEX(ValidationException e, HttpServletRequest request){
+		StandardError err = new StandardError();
+		err.setTimestemp(Instant.now());
+		err.setStatus(HttpStatus.BAD_REQUEST.value());
+		err.setError("validation problem");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+	
 }

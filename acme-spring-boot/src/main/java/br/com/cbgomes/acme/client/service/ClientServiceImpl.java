@@ -19,8 +19,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
 	
-	@Autowired
-	private ClientRepository repository;
+	
+	private final ClientRepository repository;
 	
 	public List<Client> getAll() {
 		if (repository.findAll().isEmpty()){
@@ -32,15 +32,13 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	public Client getById(Long id) {
-		return repository.findById(id).orElseThrow(() 
-				-> new EntityNotFoundException("Client ID not found"));
+		return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Client ID not found"));
 	}
 
 
 	@Override
 	public Client getByEmail(String email) {
-		return this.repository.findByEmail(email).orElseThrow(() 
-				-> new EntityNotFoundException("Client not found"));
+		return this.repository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("Client not found"));
 	}
 
 	@Override

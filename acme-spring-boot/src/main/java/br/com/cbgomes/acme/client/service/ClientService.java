@@ -8,17 +8,15 @@ import br.com.cbgomes.acme.client.domain.dto.ClientDTO;
 
 public interface ClientService {
 	
-	//Métodos
-	
 	List<Client> getAll();
 	
 	Client getById(Long id);
 	
-	Client getByEmail (String email);
+	Client getByEmail(String email);
 	
-	void removeById(Long id) throws Exception; 
+	void removeById(Long id);
 	
-	Client removeByEmail(String email) throws Exception;
+	Client removeByEmail(String email);
 	
 	Client create(Client client);
 }
