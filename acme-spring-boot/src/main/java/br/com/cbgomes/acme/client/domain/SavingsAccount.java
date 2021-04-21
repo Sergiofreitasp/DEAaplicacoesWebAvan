@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,8 +20,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Data
 @Entity
+@EqualsAndHashCode(callSuper=false)
 @Table(name= "tb_savingsAccount")
-public class SavingsAccount {
+public class SavingsAccount extends Account{
 
 	
 	//@Column(name = "juros")

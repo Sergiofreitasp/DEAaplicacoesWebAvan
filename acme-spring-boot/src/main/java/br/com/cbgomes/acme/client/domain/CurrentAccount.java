@@ -17,8 +17,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Data
 @Entity
+@EqualsAndHashCode(callSuper=false)
 @Table(name= "tb_currentAccount")
-public class CurrentAccount {
+public class CurrentAccount extends Account{
 
 	private static final long serialVersionUID = 1L;
 	

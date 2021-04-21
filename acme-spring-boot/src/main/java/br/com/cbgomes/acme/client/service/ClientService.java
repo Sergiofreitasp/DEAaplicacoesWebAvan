@@ -19,4 +19,6 @@ public interface ClientService {
 	Client removeByEmail(String email);
 	
 	Client create(Client client);
+	
+	//void openAccount(Long id);
 }
