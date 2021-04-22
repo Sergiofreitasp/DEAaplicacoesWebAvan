@@ -15,19 +15,25 @@ import br.com.cbgomes.acme.client.domain.dto.AccountConverterDTO;
 import br.com.cbgomes.acme.client.domain.dto.AccountDTO;
 import br.com.cbgomes.acme.client.service.CurrentAccountService;
 import br.com.cbgomes.acme.client.service.TransactionService;
-
+import br.com.cbgomes.acme.client.domain.dto.TransactionDTO;
+import br.com.cbgomes.acme.client.domain.dto.TransactionConverterDTO;
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/Transaction")
+@RequestMapping("/api/transaction")
 public class TransactionResource {
 
 	@Autowired
 	private TransactionService service;
 	
 	
-	@GetMapping(value = "/getTransactionCurrent/{id}")
-	public ResponseEntity<List<TansactionDTO>> getCurrentTansactionByaccount( @PathVariable  String agency, @PathVariable String accountNumber){
-	   return ResponseEntity.ok().body(TransactionConverterDTO.convertToAccountDTO(service.getCourrentTransactions(agency, accountNumber)));
+	@GetMapping(value = "/getTransactionCurrent/{agency}/{accountNumber}")
+	public ResponseEntity<List<TransactionDTO>> getCurrentTansactionByaccount( @PathVariable  String agency, @PathVariable String accountNumber){
+	   return ResponseEntity.ok().body(TransactionConverterDTO.converterListCourrentTransaction(service.getCourrentTransactions(agency, accountNumber)));
+	}
+	
+	@GetMapping(value = "/getTransactionSavings/{agency}/{accountNumber}")
+	public ResponseEntity<List<TransactionDTO>> getSavingsTansactionByaccount( @PathVariable  String agency, @PathVariable String accountNumber){
+	   return ResponseEntity.ok().body(TransactionConverterDTO.converterListSavingsTransaction(service.getSavingsTransactions(agency, accountNumber)));
 	}
 	
 }
