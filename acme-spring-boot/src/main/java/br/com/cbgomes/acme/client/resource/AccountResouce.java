@@ -33,19 +33,19 @@ public class AccountResouce {
 	@Autowired
 	private CurrentAccountService service;
 
-	@GetMapping(path = {"/{id}"})
+	@GetMapping(value = "/getCurrentAccount/{id}")
 	public ResponseEntity<AccountDTO> getCurrentAccountByID(@PathVariable Long id){
 	   return ResponseEntity.ok().body(AccountConverterDTO.convertToAccountDTO(service.getById(id)));
 	}
 
 
-	@PostMapping
+	@PostMapping(value = "/createAccount/{clientId}")
 	public ResponseEntity<AccountDTO> createAccount(@RequestBody AccountDTO dto, @PathVariable Long clientId ) {
 		return ResponseEntity.ok(AccountConverterDTO.convertToAccountDTO(service.createAccount(AccountConverterDTO.modelMapper().map(dto, CurrentAccount.class), clientId)));
 	}
 
 
-	@DeleteMapping("/{numberAccount}")
+	@DeleteMapping(value = "/delete/{clientId}")
 	public ResponseEntity<Void> deleteAccount(@RequestBody AccountDTO dto, @PathVariable Long clientId) {
 
 		this.service.removeById(this.service.unlinkCliente(AccountConverterDTO.modelMapper().map(dto, CurrentAccount.class), clientId).getId());
@@ -53,8 +53,8 @@ public class AccountResouce {
 	}
 
 
-	@PutMapping //UPDATE
-	public ResponseEntity<AccountDTO> update(@RequestBody AccountDTO dto, @RequestParam("Account id") Long id, @RequestParam("Client id") Long clientId) { 
+	@PutMapping (value = "/update/{id}/{clientId}")
+	public ResponseEntity<AccountDTO> update(@RequestBody AccountDTO dto, @PathVariable Long id, @PathVariable Long clientId) { 
 		CurrentAccount ca =this.service.getById(id);
 		
 		ca.setAgencia(dto.getNumberAgency());
@@ -68,35 +68,35 @@ public class AccountResouce {
 		
 	}
 	
-	//sacar depositar transferir e pegar o saldo
+	
 	
 	//Depositar
-		public ResponseEntity<Void>deposit(@RequestBody AccountDTO dto, @PathVariable Double amount, CurrentAccount account) {
-			this.service.depositMoney(account, amount);
-			return ResponseEntity.ok().build();
+	@PostMapping(value = "/deposit/{amount}")
+	public ResponseEntity<Void> deposit(@RequestBody AccountDTO dto, @PathVariable Double amount) {
+		this.service.depositMoney(AccountConverterDTO.modelMapper().map(dto, CurrentAccount.class), amount);
+		return ResponseEntity.ok().build();
 				
-			}
+	}
 		
-		//Sacar
-		public ResponseEntity<Void>sacar(@RequestBody AccountDTO dto, @PathVariable Double amount, CurrentAccount account, 
-				String agency, String accountNumber) {
-			this.service.getwithdraw(agency, accountNumber);
-			return ResponseEntity.ok().build();
-			
-		}
+	//Sacar
+	@PostMapping(value = "/withdraw/{amount}")
+	public ResponseEntity<Void> withdrawMoney( @RequestBody AccountDTO dto, @PathVariable Double amount) {
+		this.service.withdrawMoney(AccountConverterDTO.modelMapper().map(dto, CurrentAccount.class), amount);
+		return ResponseEntity.ok().build();
+	}
 		
-		//Transf
+
 	//Transferencia
-		public ResponseEntity<Void>transferencia(@RequestBody AccountDTO dto, @PathVariable Double amount, CurrentAccount account, 
-				String agency, String accountNumber, CurrentAccount accountDestiny, CurrentAccount accountOrigin) {
-			this.service.transferMoney(accountOrigin, accountDestiny, amount);
-			return ResponseEntity.ok().build();
+	@PostMapping(value = "/transfer/{amount}")
+	public ResponseEntity<Void>transferencia(@RequestBody AccountDTO dtoO, @RequestBody AccountDTO dtoD, @PathVariable Double amount) {
+		this.service.transferMoney(AccountConverterDTO.modelMapper().map(dtoO, CurrentAccount.class), AccountConverterDTO.modelMapper().map(dtoD, CurrentAccount.class), amount);
+		return ResponseEntity.ok().build();
 		}
 		
 	//Saldo
-		public ResponseEntity<Double>saldo(@RequestBody AccountDTO dto, @PathVariable Double amount, CurrentAccount account){
-			this.service.withdrawMoney(account, amount);
-			return ResponseEntity.ok().build();
+	@GetMapping(value = "/check_balance/{agency}/{accountNumber}")
+	public ResponseEntity<Double> checkBalance( @PathVariable  String agency, @PathVariable String accountNumber){
+		return ResponseEntity.ok().body(this.service.getwithdraw(agency, accountNumber));
 			
 		}
 }
