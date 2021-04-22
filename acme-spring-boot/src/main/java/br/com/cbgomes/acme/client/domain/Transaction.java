@@ -1,14 +1,19 @@
 package br.com.cbgomes.acme.client.domain;
 
+import java.time.Instant;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,12 +36,18 @@ public class Transaction {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	//@Column(name = "type")
+	@Column(nullable = false)
 	private String type;
 	
+	@Column(nullable = false)
 	private double value;
 	
-	@JsonFormat(pattern = dd:MM:yyyy HH:mm:ss)
+	@Column(nullable = false)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", timezone="GMT-3")
 	private Date date;
+	
+	@ManyToOne
+	@JoinColumn(name = "fk_caccount_id", nullable = false)
+	private CurrentAccount caccount;
 	
 }

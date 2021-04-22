@@ -36,22 +36,22 @@ public class Client {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	//@Column(name = "name")
+	@Column(name = "name")
 	private String name;
 	
-	//@Column(name = "email")
+	@Column(name = "email")
 	private String email;
 	
-	//@Column(name = "phone")
+	@Column(name = "phone")
 	private String phone;
 	
-	//@Column(name = "address")
+	@Column(name = "address")
 	private String address;
 	
-	//@Column(name = "cpf_cnpj")
+	@Column(name = "cpf_cnpj")
 	private String cpf_cnpj;
 	
-	//@Column(name = "ativo")
+	@Column(name = "ativo")
 	private boolean ativo;
 }
 

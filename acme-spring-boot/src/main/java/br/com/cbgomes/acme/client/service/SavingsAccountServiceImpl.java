@@ -1,17 +1,22 @@
 package br.com.cbgomes.acme.client.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.cbgomes.acme.client.domain.Account;
 import br.com.cbgomes.acme.client.domain.Client;
 import br.com.cbgomes.acme.client.domain.CurrentAccount;
 import br.com.cbgomes.acme.client.domain.SavingsAccount;
+import br.com.cbgomes.acme.client.repository.ClientRepository;
 import br.com.cbgomes.acme.client.repository.CurrentAccountRepository;
 import br.com.cbgomes.acme.client.repository.SavingsAccountRepository;
 import br.com.cbgomes.acme.exception.EntityNotFoundException;
 import br.com.cbgomes.acme.exception.ValidationException;
+import lombok.RequiredArgsConstructor;
 
+@Service
+@RequiredArgsConstructor
 public class SavingsAccountServiceImpl implements SavingsAccountService{
 
 	@Autowired
@@ -27,8 +32,8 @@ public class SavingsAccountServiceImpl implements SavingsAccountService{
 		return account.getSaldo();
 	}
 	
-	public Account loadAccountForNumber(String agency, String accountNumber) {
-		Account account = repository.findByAgencyAndAccountNumber(agency, accountNumber);
+	public SavingsAccount loadAccountForNumber(String agency, String accountNumber) {
+		SavingsAccount account = repository.findByAgenciaAndNumeroConta(agency, accountNumber);
 		if (account == null) {
 			throw new EntityNotFoundException("Accont does not exist");
 		}

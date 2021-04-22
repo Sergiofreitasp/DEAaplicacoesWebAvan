@@ -27,26 +27,11 @@ import br.com.cbgomes.acme.client.service.CurrentAccountService;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/Account")
+@RequestMapping("/api/currentaccount")
 public class AccountResouce {
-
-	//saque withdraw money
-	//deposito deposit
-	//transferencia transfer
-	//criar conta CreateAccount
 	
 	@Autowired
 	private CurrentAccountService service;
-
-	
-
-
-	/*@GetMapping
-	@ResponseStatus(code = HttpStatus.OK)
-	public ResponseEntity<List<AccountDTO>> getAllClients() {
-		return ResponseEntity.ok(AccountConverterDTO.conveterListAccount(this.service.getAll()));
-	}*/
-
 
 	@GetMapping(path = {"/{id}"})
 	public ResponseEntity<AccountDTO> getCurrentAccountByID(@PathVariable Long id){
@@ -85,4 +70,33 @@ public class AccountResouce {
 	
 	//sacar depositar transferir e pegar o saldo
 	
+	//Depositar
+		public ResponseEntity<Void>deposit(@RequestBody AccountDTO dto, @PathVariable Double amount, CurrentAccount account) {
+			this.service.depositMoney(account, amount);
+			return ResponseEntity.ok().build();
+				
+			}
+		
+		//Sacar
+		public ResponseEntity<Void>sacar(@RequestBody AccountDTO dto, @PathVariable Double amount, CurrentAccount account, 
+				String agency, String accountNumber) {
+			this.service.getwithdraw(agency, accountNumber);
+			return ResponseEntity.ok().build();
+			
+		}
+		
+		//Transf
+	//Transferencia
+		public ResponseEntity<Void>transferencia(@RequestBody AccountDTO dto, @PathVariable Double amount, CurrentAccount account, 
+				String agency, String accountNumber, CurrentAccount accountDestiny, CurrentAccount accountOrigin) {
+			this.service.transferMoney(accountOrigin, accountDestiny, amount);
+			return ResponseEntity.ok().build();
+		}
+		
+	//Saldo
+		public ResponseEntity<Double>saldo(@RequestBody AccountDTO dto, @PathVariable Double amount, CurrentAccount account){
+			this.service.withdrawMoney(account, amount);
+			return ResponseEntity.ok().build();
+			
+		}
 }
