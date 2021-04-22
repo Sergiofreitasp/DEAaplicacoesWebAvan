@@ -1,6 +1,5 @@
 package br.com.cbgomes.acme.client.domain;
 
-import java.time.Instant;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,9 +27,8 @@ import lombok.Setter;
 @Data
 @Builder
 @Entity
-@Table(name= "tb_transaction")
-public class Transaction {
-
+@Table(name= "tb_courrent_transaction")
+public class SavingsTransaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -47,7 +44,6 @@ public class Transaction {
 	private Date date;
 	
 	@ManyToOne
-	@JoinColumn(name = "fk_caccount_id", nullable = false)
-	private CurrentAccount caccount;
-	
+	@JoinColumn(name = "fk_saccount_id", nullable = false)
+	private SavingsAccount saccount;
 }

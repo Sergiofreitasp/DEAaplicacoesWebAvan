@@ -24,4 +24,6 @@ public interface CurrentAccountService {
 	CurrentAccount getById(Long id);
 	
 	void removeById(Long id);
+	
+	public CurrentAccount loadAccountForNumber(String agency, String accountNumber);
 }

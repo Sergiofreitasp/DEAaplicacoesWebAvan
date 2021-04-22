@@ -20,4 +20,6 @@ public interface SavingsAccountService {
 	void removeById(Long id);
 	
 	void applyInterest(SavingsAccount account);
+	
+	public SavingsAccount loadAccountForNumber(String agency, String accountNumber);
 }

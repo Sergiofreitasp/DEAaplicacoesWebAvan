@@ -23,6 +23,9 @@ public class CurrentAccountServiceImpl implements CurrentAccountService{
 	@Autowired
 	private ClientService clinetService;
 	
+	@Autowired
+	private TransactionService transactionService;
+	
 	@Override
 	public double getwithdraw(String agency, String accountNumber) {
 		Account account = this.loadAccountForNumber(agency, accountNumber);
@@ -43,7 +46,7 @@ public class CurrentAccountServiceImpl implements CurrentAccountService{
 	public void withdrawMoney(CurrentAccount account, double amount) {
 		account.setSaldo(account.getSaldo() - amount);
 		this.repository.saveAndFlush(account);
-		//ADICIONAR TRANSAÇÃO 
+		this.transactionService.recordsCTransactions("withdrawMoney",account, amount);
 		
 	}
 
@@ -55,7 +58,7 @@ public class CurrentAccountServiceImpl implements CurrentAccountService{
 			account.setSaldo(account.getSaldo()+amount);
 		}
 		this.repository.saveAndFlush(account);
-		// ADICIONAR TRANSAÇÃO
+		this.transactionService.recordsCTransactions("Deposit",account, amount);
 		
 	}
 
@@ -73,14 +76,14 @@ public class CurrentAccountServiceImpl implements CurrentAccountService{
 		
 		accountOrigin.setSaldo(accountOrigin.getSaldo() - amount);
 		this.repository.saveAndFlush(accountOrigin);
-		// ADICIONAR TRANSAÇÃO
+		this.transactionService.recordsCTransactions("Transferiu",accountOrigin, amount);
 		accountOrigin.setSaldo(accountOrigin.getSaldo() - (amount * tax));
 		this.repository.saveAndFlush(accountOrigin);
-		// ADICIONAR TRANSAÇÃO
+		this.transactionService.recordsCTransactions("Taxa de transferencia",accountOrigin, amount * tax);
 		
 		accountDestiny.setSaldo(accountDestiny.getSaldo() + amount);
 		this.repository.saveAndFlush(accountDestiny);
-		// ADICIONAR TRANSAÇÃO
+		this.transactionService.recordsCTransactions("Recebido",accountDestiny, amount);
 	}
 
 	@Override

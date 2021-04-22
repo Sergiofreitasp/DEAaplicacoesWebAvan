@@ -25,6 +25,8 @@ public class SavingsAccountServiceImpl implements SavingsAccountService{
 	@Autowired
 	private ClientService clinetService;
 	
+	@Autowired
+	private TransactionService transactionService;
 	
 	@Override
 	public double getwithdraw(String agency, String accontNumber) {
@@ -48,7 +50,7 @@ public class SavingsAccountServiceImpl implements SavingsAccountService{
 		}
 		account.setSaldo(account.getSaldo() - amount);
 		this.repository.saveAndFlush(account);
-		//ADICIONAR TRANSAÇÃO 
+		this.transactionService.recordsSTransactions("Saque", account, amount);
 	}
 
 	@Override
@@ -56,7 +58,7 @@ public class SavingsAccountServiceImpl implements SavingsAccountService{
 	public void depositMoney(SavingsAccount account, double amount) {
 		account.setSaldo(account.getSaldo()+amount);
 		this.repository.saveAndFlush(account);
-		// ADICIONAR TRANSAÇÃO
+		this.transactionService.recordsSTransactions("Deposit", account, amount);
 		
 	}
 
@@ -96,6 +98,7 @@ public class SavingsAccountServiceImpl implements SavingsAccountService{
 	@Override
 	public void applyInterest(SavingsAccount account) {
 		account.setSaldo(account.getSaldo() + (account.getSaldo()*0.002));
+		this.transactionService.recordsSTransactions("Juros do mes", account, account.getSaldo()*0.002);
 	}
 
 }

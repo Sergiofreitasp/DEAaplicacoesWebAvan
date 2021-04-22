@@ -6,10 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import br.com.cbgomes.acme.client.domain.Account;
-import br.com.cbgomes.acme.client.domain.Transaction;
+import br.com.cbgomes.acme.client.domain.CourrentTransaction;
+
 
 @Repository
-public interface TransactionRepository extends JpaRepository<Transaction, Long>{
+public interface CourrentTransactionRepository extends JpaRepository<CourrentTransaction, Long>{
 
-	List<Transaction> findBycaccount(Account account);
+	List<CourrentTransaction> findBycaccount(Account account);
 }
