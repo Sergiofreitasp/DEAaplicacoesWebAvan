@@ -12,5 +12,5 @@ import br.com.cbgomes.acme.client.domain.SavingsTransaction;
 @Repository
 public interface SavingsTransactionRepository extends JpaRepository<SavingsTransaction, Long>{
 
-	List<SavingsTransaction> findBycaccount(Account account);
+	List<SavingsTransaction> findBysaccount(Account account);
 }

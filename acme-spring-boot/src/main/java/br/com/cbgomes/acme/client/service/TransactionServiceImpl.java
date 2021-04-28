@@ -54,7 +54,7 @@ public class TransactionServiceImpl implements TransactionService{
 	
 	public List<SavingsTransaction> getSavingsTransactions(String agency, String accountNumber) {
 		SavingsAccount sa = savingsAccount_s.loadAccountForNumber(agency, accountNumber);
-		return s_repository.findBycaccount(sa);
+		return s_repository.findBysaccount(sa);
 	}
 	
 	public void recordsSTransactions(String type, SavingsAccount sa, Double value) {

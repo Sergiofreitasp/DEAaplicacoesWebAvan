@@ -11,7 +11,7 @@ import br.com.cbgomes.acme.client.domain.Account;
 public class AccountConverterDTO {
 
 	@Bean
-	public static ModelMapper modelMapper() {
+	public static ModelMapper modelMapperA() {
 		return new ModelMapper();
 	}
 
@@ -19,16 +19,16 @@ public class AccountConverterDTO {
 	public static List<AccountDTO> conveterListAccount(List<Account> accounts){
 		return accounts
 				.stream()
-				.map(c -> modelMapper().map(c, AccountDTO.class))
+				.map(c -> modelMapperA().map(c, AccountDTO.class))
 				.collect(Collectors.toList());
 	}
 
 	public static Account convertToAccount(AccountDTO dto) {
-		return modelMapper().map(dto, Account.class);
+		return modelMapperA().map(dto, Account.class);
 	}
 
 	public static AccountDTO convertToAccountDTO(Object object) {
-		return modelMapper().map(object, AccountDTO.class);
+		return modelMapperA().map(object, AccountDTO.class);
 	}
 	
 	

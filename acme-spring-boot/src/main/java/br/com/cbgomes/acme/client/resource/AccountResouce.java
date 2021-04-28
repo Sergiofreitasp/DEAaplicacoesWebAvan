@@ -41,14 +41,14 @@ public class AccountResouce {
 
 	@PostMapping(value = "/createAccount/{clientId}")
 	public ResponseEntity<AccountDTO> createAccount(@RequestBody AccountDTO dto, @PathVariable Long clientId ) {
-		return ResponseEntity.ok(AccountConverterDTO.convertToAccountDTO(service.createAccount(AccountConverterDTO.modelMapper().map(dto, CurrentAccount.class), clientId)));
+		return ResponseEntity.ok(AccountConverterDTO.convertToAccountDTO(service.createAccount(AccountConverterDTO.modelMapperA().map(dto, CurrentAccount.class), clientId)));
 	}
 
 
 	@DeleteMapping(value = "/delete/{clientId}")
 	public ResponseEntity<Void> deleteAccount(@RequestBody AccountDTO dto, @PathVariable Long clientId) {
 
-		this.service.removeById(this.service.unlinkCliente(AccountConverterDTO.modelMapper().map(dto, CurrentAccount.class), clientId).getId());
+		this.service.removeById(this.service.unlinkCliente(AccountConverterDTO.modelMapperA().map(dto, CurrentAccount.class), clientId).getId());
 		return ResponseEntity.ok().build();
 	}
 
@@ -73,7 +73,7 @@ public class AccountResouce {
 	//Depositar
 	@PostMapping(value = "/deposit/{amount}")
 	public ResponseEntity<Void> deposit(@RequestBody AccountDTO dto, @PathVariable Double amount) {
-		this.service.depositMoney(AccountConverterDTO.modelMapper().map(dto, CurrentAccount.class), amount);
+		this.service.depositMoney(AccountConverterDTO.modelMapperA().map(dto, CurrentAccount.class), amount);
 		return ResponseEntity.ok().build();
 				
 	}
@@ -81,7 +81,7 @@ public class AccountResouce {
 	//Sacar
 	@PostMapping(value = "/withdraw/{amount}")
 	public ResponseEntity<Void> withdrawMoney( @RequestBody AccountDTO dto, @PathVariable Double amount) {
-		this.service.withdrawMoney(AccountConverterDTO.modelMapper().map(dto, CurrentAccount.class), amount);
+		this.service.withdrawMoney(AccountConverterDTO.modelMapperA().map(dto, CurrentAccount.class), amount);
 		return ResponseEntity.ok().build();
 	}
 		
@@ -89,7 +89,7 @@ public class AccountResouce {
 	//Transferencia
 	@PostMapping(value = "/transfer/{amount}")
 	public ResponseEntity<Void>transferencia(@RequestBody AccountDTO dtoO, @RequestBody AccountDTO dtoD, @PathVariable Double amount) {
-		this.service.transferMoney(AccountConverterDTO.modelMapper().map(dtoO, CurrentAccount.class), AccountConverterDTO.modelMapper().map(dtoD, CurrentAccount.class), amount);
+		this.service.transferMoney(AccountConverterDTO.modelMapperA().map(dtoO, CurrentAccount.class), AccountConverterDTO.modelMapperA().map(dtoD, CurrentAccount.class), amount);
 		return ResponseEntity.ok().build();
 		}
 		

@@ -15,7 +15,7 @@ import br.com.cbgomes.acme.client.domain.SavingsTransaction;
 public class TransactionConverterDTO {
 
 	@Bean
-	public static ModelMapper modelMapper() {
+	public static ModelMapper modelMapperT() {
 		return new ModelMapper();
 	}
 	
@@ -23,14 +23,14 @@ public class TransactionConverterDTO {
 	public static List<TransactionDTO> converterListCourrentTransaction(List<CourrentTransaction> cTransaction){
 		return cTransaction
 				.stream()
-				.map(c -> modelMapper().map(c, TransactionDTO.class))
+				.map(c -> modelMapperT().map(c, TransactionDTO.class))
 				.collect(Collectors.toList());
 	}
 	
 	public static List<TransactionDTO> converterListSavingsTransaction(List<SavingsTransaction> sTransaction){
 		return sTransaction
 				.stream()
-				.map(c -> modelMapper().map(c, TransactionDTO.class))
+				.map(c -> modelMapperT().map(c, TransactionDTO.class))
 				.collect(Collectors.toList());
 	}
 

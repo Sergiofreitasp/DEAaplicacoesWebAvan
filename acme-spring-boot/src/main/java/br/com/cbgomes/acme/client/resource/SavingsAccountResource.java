@@ -36,13 +36,13 @@ public class SavingsAccountResource {
 	
 	@PostMapping(value = "/createSavingsAccount/{clientId}")
 	public ResponseEntity<AccountDTO> createAccount(@RequestBody AccountDTO dto, @PathVariable Long clientId ) {
-		return ResponseEntity.ok(AccountConverterDTO.convertToAccountDTO(service.createAccount(AccountConverterDTO.modelMapper().map(dto, SavingsAccount.class), clientId)));
+		return ResponseEntity.ok(AccountConverterDTO.convertToAccountDTO(service.createAccount(AccountConverterDTO.modelMapperA().map(dto, SavingsAccount.class), clientId)));
 	}
 	
 	@DeleteMapping(value = "/delete/{clientId}")
 	public ResponseEntity<Void> deleteAccount(@RequestBody AccountDTO dto, @PathVariable Long clientId) {
 
-		this.service.removeById(this.service.unlinkCliente(AccountConverterDTO.modelMapper().map(dto, SavingsAccount.class), clientId).getId());
+		this.service.removeById(this.service.unlinkCliente(AccountConverterDTO.modelMapperA().map(dto, SavingsAccount.class), clientId).getId());
 		return ResponseEntity.ok().build();
 	}
 	
@@ -62,14 +62,14 @@ public class SavingsAccountResource {
 	
 	@PostMapping(value = "/deposit/{amount}")
 	public ResponseEntity<Void> deposit(@RequestBody AccountDTO dto, @PathVariable Double amount) {
-		this.service.depositMoney(AccountConverterDTO.modelMapper().map(dto, SavingsAccount.class), amount);
+		this.service.depositMoney(AccountConverterDTO.modelMapperA().map(dto, SavingsAccount.class), amount);
 		return ResponseEntity.ok().build();
 				
 	}
 	
 	@PostMapping(value = "/withdraw/{amount}")
 	public ResponseEntity<Void> withdrawMoney( @RequestBody AccountDTO dto, @PathVariable Double amount) {
-		this.service.withdrawMoney(AccountConverterDTO.modelMapper().map(dto, SavingsAccount.class), amount);
+		this.service.withdrawMoney(AccountConverterDTO.modelMapperA().map(dto, SavingsAccount.class), amount);
 		return ResponseEntity.ok().build();
 	}
 	
@@ -80,7 +80,7 @@ public class SavingsAccountResource {
 	
 	@PostMapping(value = "/applyInterest")
 	public ResponseEntity<Void> applyInterest(@RequestBody AccountDTO dto) {
-		this.service.applyInterest(AccountConverterDTO.modelMapper().map(dto, SavingsAccount.class));
+		this.service.applyInterest(AccountConverterDTO.modelMapperA().map(dto, SavingsAccount.class));
 		return ResponseEntity.ok().build();
 				
 	}
